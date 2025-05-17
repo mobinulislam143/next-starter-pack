@@ -28,8 +28,8 @@ export default {
         }
       },
       colors: {
-        primary: '#118577',
-        secondary: '#F8AE30',
+        primary: '#00B1FF',
+        secondary: '#00ca8a',
       },
       borderRadius: {
         lg: 'var(--radius)',
