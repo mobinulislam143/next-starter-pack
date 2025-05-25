@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import logo from "@/assets/logo/mainLogo.png";
+import logo from "@/assets/logo/logo.jpg";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 import { MdOutlineCategory } from "react-icons/md";

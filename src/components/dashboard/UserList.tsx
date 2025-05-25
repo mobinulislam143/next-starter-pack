@@ -12,15 +12,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-
-import {
-  Eye,
-  EyeOff,
-  Trash2,
-  
-} from "lucide-react";
-import Paginations from "../common/Paginations";
+import { Eye, EyeOff, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
+import Paginations from "../common/Paginations";
 
 interface User {
   id: string;
@@ -98,7 +92,6 @@ export default function UserList() {
           onChange={(e) => setSearch(e.target.value)}
           className="max-w-sm border-primary/20 focus-visible:ring-primary/30 text-black"
         />
-       
       </div>
 
       <div className="border border-primary/10 rounded-md overflow-x-auto">
@@ -184,6 +177,17 @@ export default function UserList() {
           onPageChange={handlePageChange}
         />
       )}
+
+      {/* {totalPages > 1 && (
+        <Paginations
+          currentPage={currentPage}
+          totalPages={totalPages}
+          itemsPerPage={itemsPerPage}
+          totalItems={filteredUsers.length}
+          startIndex={startIndex}
+          onPageChange={handlePageChange}
+        />
+      )} */}
     </div>
   );
 }

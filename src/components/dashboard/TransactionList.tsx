@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { MoreHorizontal, Search, ArrowUpDown, Download, ChevronLeft, ChevronRight } from "lucide-react"
-import { transactions } from "@/types/fakeData"
+import { transactions } from "@/types/dahboardFakeData"
 
 export default function TransactionList() {
   const [searchTerm, setSearchTerm] = useState("")

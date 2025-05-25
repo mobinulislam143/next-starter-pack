@@ -14,10 +14,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Popover,  PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon, X } from "lucide-react";
-import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
@@ -276,24 +274,12 @@ export default function EventForm({ isEditing = false }: { isEditing?: boolean }
                       )}
                       disabled={isLoading}
                     >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
+                     
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) => date < new Date()}
-                    initialFocus
-                  />
-                </PopoverContent>
+               
               </Popover>
               <FormMessage />
             </FormItem>

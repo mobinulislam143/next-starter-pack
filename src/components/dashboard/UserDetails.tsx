@@ -5,7 +5,7 @@ import Image, { type StaticImageData } from "next/image"
 import { Star, Briefcase, Clock, DollarSign, Linkedin, FileText, Phone, Calendar, Globe } from "lucide-react"
 import { MdOutlineEmail } from "react-icons/md"
 
-import avatar from "@/assets/logo/authbg.png"
+import avatar from "@/assets/women (2).png"
 
 type UserData = {
     name: { firstName?: string; lastName?: string }
