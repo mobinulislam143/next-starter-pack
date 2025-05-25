@@ -2,7 +2,7 @@
 import SignupLottie from "@/components/lottie/SignupLottie";
 
 import { ReactNode } from "react";
-import Navbar from "../common/Navbar";
+// import Navbar from "../common/Navbar";
 
 
 
@@ -11,7 +11,7 @@ export default function AuthWrapper({ children }: { children : ReactNode}) {
 
     return (
         <div>
-            <Navbar/>
+            {/* <Navbar/> */}
             <div className="container relative ">
                
 
