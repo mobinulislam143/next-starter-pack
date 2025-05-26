@@ -1,3 +1,7 @@
+import { FaUserNinja } from "react-icons/fa6";
+import { MdOutlineAddHomeWork } from "react-icons/md";
+import { Users} from "lucide-react";
+
 export const transactions = [
   {
     id: "TX-2305",
@@ -83,4 +87,32 @@ export const transactions = [
     amount: 129.99,
     status: "Completed",
   },
-]
+];
+
+export const stats = [
+  { label: "Total User", value: "1,200", icon: Users },
+  { label: "Total Broker", value: "1,200", icon: FaUserNinja },
+  { label: "Total Property", value: "1,200", icon: MdOutlineAddHomeWork },
+  { label: "Total User", value: "1,200", icon: Users },
+];
+
+export const brokers = [
+  {
+    id: 1,
+    name: "Big Kahuna Burger Ltd.",
+    email: "tanya.hill@example.com",
+    address: "227 Brookview Drive Beaumont, TX 77701",
+  },
+  {
+    id: 2,
+    name: "Biffco Enterprises Ltd.",
+    email: "jackson.graham@example.com",
+    address: "227 Brookview Drive Beaumont, TX 77701",
+  },
+  {
+    id: 3,
+    name: "Abstergo Ltd.",
+    email: "michael.mitc@example.com",
+    address: "227 Brookview Drive Beaumont, TX 77701",
+  },
+];

@@ -28,7 +28,7 @@ export default {
         }
       },
       colors: {
-        primary: '#00B1FF',
+        primary: '#289D72',
         secondary: '#00ca8a',
       },
       borderRadius: {

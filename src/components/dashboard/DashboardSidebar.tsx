@@ -3,32 +3,30 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import logo from "@/assets/logo/logo.jpg";
+import logo from "@/assets/logo/mainLogo.png";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
 import { MdOutlineCategory } from "react-icons/md";
 import { MdProductionQuantityLimits } from "react-icons/md";
-import { MdOutlineEvent } from "react-icons/md";
 import { ImBlogger } from "react-icons/im";
 import { CgProductHunt } from "react-icons/cg";
 
-import {
-  LayoutDashboard,
-  CreditCard,
-  ListOrdered,
-  Package,
-  LogOut,
-} from "lucide-react";
+import { LogOut} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { LuLayoutDashboard } from "react-icons/lu";
+import { FaUserTag } from "react-icons/fa";
+import { TbUserSquare } from "react-icons/tb";
+import { FaUsers } from "react-icons/fa";
+import { IoSettingsSharp } from "react-icons/io5";
 
 const menuItems = [
-  { title: "Overview", icon: LayoutDashboard, href: "/dashboard/overview" },
-  { title: "Payment", icon: CreditCard, href: "/dashboard/payment" },
-  { title: "Order list", icon: ListOrdered, href: "/dashboard/orders" },
-  { title: "All User", icon: Package, href: "/dashboard/users" },
+  { title: "Dashboard", icon: LuLayoutDashboard, href: "/dashboard/overview" },
+  { title: "Broker List", icon: FaUserTag, href: "/dashboard/payment" },
+  { title: "Property List", icon: TbUserSquare, href: "/dashboard/orders" },
+  { title: "User List", icon: FaUsers, href: "/dashboard/users" },
   {
-    title: "Podcast and event",
-    icon: MdOutlineEvent,
+    title: "Settings",
+    icon: IoSettingsSharp,
     href: "/dashboard/podcastEvent",
   },
   {
@@ -82,15 +80,15 @@ export function DashboardSidebar() {
   };
 
   return (
-    <div className="flex h-screen w-64 flex-col bg-primary text-white">
+    <div className="flex h-screen w-64 flex-col bg-primary text-white py-[40px] overflow-y-auto">
       <div className="p-4">
-        <Link href={"/"}>
+        <Link href={"/dashboard/overview"}>
           <Image
             src={logo}
             alt="Quick Online Deals"
-            width={80}
-            height={40}
-            className="mb-6 lg:ml-0 ml-12"
+            width={110}
+            height={20}
+            className="w-full my-4"
           />
         </Link>
         <nav className="space-y-1">

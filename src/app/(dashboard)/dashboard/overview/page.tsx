@@ -1,6 +1,6 @@
 "use client";
 
-import OrderInsightsCard from "@/components/dashboard/OrderInsightsChart";
+// import OrderInsightsCard from "@/components/dashboard/OrderInsightsChart";
 import OrderStatistics from "@/components/dashboard/OrderStatistics";
 
 const Dashboard = () => {
@@ -14,11 +14,11 @@ const Dashboard = () => {
         <OrderStatistics/>
       </div>
       {/* order insights */}
-      <div className="mt-6">
+      {/* <div className="mt-6">
         <OrderInsightsCard />
       </div>
       <div className="mt-6">
-      </div>
+      </div> */}
     </div>
   );
 };
