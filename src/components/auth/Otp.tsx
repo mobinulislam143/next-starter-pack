@@ -13,11 +13,11 @@ import { useRouter } from "next/navigation";
 // import hoverStar from '@/assets/hoverStar.png'
 const loginSchema = z.object({
   otp: z
-    .string()
+    .number()
     .min(6, "OTP must be 6 digits") // Ensuring at least 6 characters
     .max(6, "OTP must be 6 digits") // Ensuring at most 6 characters
-    .regex(/^\d{6}$/, "OTP must be exactly 6 digits") // Ensuring only digits
-    // .transform((val) => Number(val)), // Makes `otp` a number
+    // .regex(/^\d{6}$/, "OTP must be exactly 6 digits") // Ensuring only digits
+    .transform((val) => Number(val)), // Convert to number
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;

@@ -52,11 +52,11 @@ export default function Footer() {
           {/* Company Info */}
           <div className="col-span-1">
             <Link href={"/"}>
-              <div className="w-[100px] h-[80px] mb-3">
+              <div className="w-[100px] h-[100px]">
                 <Image
-                  src={mainLogo || "/placeholder.svg"}
+                  src={mainLogo}
                   width={100}
-                  height={80}
+                  height={100}
                   className="w-full h-full"
                   alt="mainlog"
                 />
@@ -80,141 +80,157 @@ export default function Footer() {
 
           {/* Navigation Sections */}
           {/* <footer className="grid grid-cols-1 md:grid-cols-3 gap-8"> */}
-            {/* Quick Menu Section */}
-            <div className="col-span-1">
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">
-                Quick Menu
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <Link
-                    href="/"
-                    className="text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/explore-stays"
-                    className="text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Explore Stays
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/property-list"
-                    className="text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    List Your Property
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/support"
-                    className="text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Help and Support
-                  </Link>
-                </li>
-              </ul>
-            </div>
+          {/* Quick Menu Section */}
+          <div className="col-span-1">
+            <h3 className="text-sm font-semibold text-gray-900 mb-4">
+              Quick Menu
+            </h3>
+            <ul className="space-y-3">
+              <li>
+                <Link
+                  href="/"
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/explore-stays"
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  Explore Stays
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/property-list"
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  List Your Property
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/support"
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  Help and Support
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-            {/* Information Section */}
-            <div className="col-span-1">
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">
-                Information
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <Link
-                    href={`${role === "HOST" ? "/host-profile" : role === "GUEST"? "/user-profile": role === 'SUPER_ADMIN'? '/admin/overview':  "/login"}`}
-                    className="text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    My Account
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/login"
-                    className="text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Login
-                  </Link>
-                </li>
-                {/* {role} */}
-                <li>
-                  <Link
-                    href={`${role === "HOST" ? "/hostdashboard/allProperties" : role === "GUEST"? "/user-profile/currentBooking": role === 'SUPER_ADMIN'? '/admin/properties':  "/login"}`}
-                    className="text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    My Properties
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/saved"
-                    className="text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Saved
-                  </Link>
-                </li>
-              </ul>
-            </div>
+          {/* Information Section */}
+          <div className="col-span-1">
+            <h3 className="text-sm font-semibold text-gray-900 mb-4">
+              Information
+            </h3>
+            <ul className="space-y-3">
+              <li>
+                <Link
+                  href={`${
+                    role === "HOST"
+                      ? "/host-profile"
+                      : role === "GUEST"
+                      ? "/user-profile"
+                      : role === "SUPER_ADMIN"
+                      ? "/admin/overview"
+                      : "/login"
+                  }`}
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  My Account
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/login"
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  Login
+                </Link>
+              </li>
+              {/* {role} */}
+              <li>
+                <Link
+                  href={`${
+                    role === "HOST"
+                      ? "/hostdashboard/allProperties"
+                      : role === "GUEST"
+                      ? "/user-profile/currentBooking"
+                      : role === "SUPER_ADMIN"
+                      ? "/admin/properties"
+                      : "/login"
+                  }`}
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  My Properties
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/saved"
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  Saved
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-            {/* Service Section */}
-            <div className="col-span-1">
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">
-                Service
-              </h3>
-              <ul className="space-y-3">
-                {role === "HOST" && (
-                  <>
+          {/* Service Section */}
+          <div className="col-span-1">
+            <h3 className="text-sm font-semibold text-gray-900 mb-4">
+              Service
+            </h3>
+            <ul className="space-y-3">
+              {role === "HOST" && (
+                <>
                   <li>
-                  <Link
-                    href="/pricing"
-                    className="text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Basic Plan
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/pricing"
-                    className="text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Standard Plan
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/pricing"
-                    className="text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Premium Plan
-                  </Link>
-                </li>
+                    <Link
+                      href="/pricing"
+                      className="text-sm text-gray-600 hover:text-gray-900"
+                    >
+                      Basic Plan
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/pricing"
+                      className="text-sm text-gray-600 hover:text-gray-900"
+                    >
+                      Standard Plan
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/pricing"
+                      className="text-sm text-gray-600 hover:text-gray-900"
+                    >
+                      Premium Plan
+                    </Link>
+                  </li>
                 </>
-                )}
-                <li>
-                  <Link
-                    href="/privacy-policy"
-                    className="text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/termsAndCondition"
-                    className="text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Terms & Conditions
-                  </Link>
-                </li>
-              </ul>
-            </div>
+              )}
+              <li>
+                <Link
+                  href="/privacy-policy"
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/termsAndCondition"
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  Terms & Conditions
+                </Link>
+              </li>
+            </ul>
+          </div>
           {/* </footer> */}
 
           {/* Subscribe */}

@@ -1,6 +1,6 @@
 "use client";
 
-import {  useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { Heart, Bell, User } from "lucide-react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
@@ -15,21 +15,17 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { notificationData } from "@/types/fakeData";
 
-
 const navItems = [
   { href: "/", label: "Home", active: true },
   { href: "/property-list", label: "List Your Property" },
   { href: "/support", label: "Help and Support" },
   { href: "/explore-stays", label: "Explore Stays" },
-  
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
 
   const [open, setOpen] = useState<boolean>(false);
-
-
 
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -38,8 +34,7 @@ export default function Navbar() {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  const userRole = useSelector((state: RootState) => state?.auth?.user?.role)
-
+  const userRole = useSelector((state: RootState) => state?.auth?.user?.role);
 
   return (
     <header className="border-b border-gray-100 py-4">
@@ -47,11 +42,11 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex-shrink-0">
             <Link href="/">
-              <div className="w-[87px] h-[70px] mb-3">
+              <div className="w-[100px] h-[100px]">
                 <Image
                   src={mainLogo}
-                  width={87}
-                  height={70}
+                  width={100}
+                  height={100}
                   className="w-full h-full"
                   alt="mainlog"
                 />
@@ -154,7 +149,16 @@ export default function Navbar() {
                 </div>
               </>
             )}
-            <Link  href={`${userRole === "HOST" ? "/host-profile" : userRole === "GUEST"? "/user-profile": userRole === 'SUPER_ADMIN'? '/admin/overview':  "/login"}`}
+            <Link
+              href={`${
+                userRole === "HOST"
+                  ? "/host-profile"
+                  : userRole === "GUEST"
+                  ? "/user-profile"
+                  : userRole === "SUPER_ADMIN"
+                  ? "/admin/overview"
+                  : "/login"
+              }`}
               // href={"/"}
               className="p-1 rounded-full text-gray-500 hover:text-gray-900 focus:outline-none"
               aria-label="Account"

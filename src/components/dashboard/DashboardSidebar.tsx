@@ -88,8 +88,8 @@ export function DashboardSidebar() {
           <Image
             src={logo}
             alt="Quick Online Deals"
-            width={80}
-            height={40}
+            width={100}
+            height={100}
             className="mb-6 lg:ml-0 ml-12"
           />
         </Link>
