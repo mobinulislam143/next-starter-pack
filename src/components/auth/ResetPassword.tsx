@@ -13,7 +13,7 @@ import Link from "next/link";
 const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
-import mainLogo from "@/assets/image/mainLogo.png";
+import mainLogo from "@/assets/logo/logo.jpg";
 
 import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
