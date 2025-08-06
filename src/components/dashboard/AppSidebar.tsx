@@ -3,22 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-// import logo from "@/assets/logo/logo.jpg";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
-import { MdOutlineCategory } from "react-icons/md";
-import { MdProductionQuantityLimits } from "react-icons/md";
-import { MdOutlineEvent } from "react-icons/md";
-import { ImBlogger } from "react-icons/im";
-import { CgProductHunt } from "react-icons/cg";
 
-import {
-  LayoutDashboard,
-  CreditCard,
-  ListOrdered,
-  Package,
-  LogOut,
-} from "lucide-react";
+
 import {
   Sidebar,
   SidebarContent,
@@ -33,37 +21,17 @@ import {
 } from "@/components/ui/sidebar"
 import { Button } from "../ui/button";
 import logo from "@/assets/logo/logo.jpg";
+import { LayoutDashboard, Users, UserCheck, LogOut, Package, HelpCircle, MessageCircle, Settings } from "lucide-react"
+
 // Menu items
 const menuItems = [
-  { title: "Overview", icon: LayoutDashboard, href: "/dashboard/overview" },
-  { title: "Payment", icon: CreditCard, href: "/dashboard/payment" },
-  { title: "Order list", icon: ListOrdered, href: "/dashboard/orders" },
-  { title: "All User", icon: Package, href: "/dashboard/users" },
-  {
-    title: "Podcast and event",
-    icon: MdOutlineEvent,
-    href: "/dashboard/podcastEvent",
-  },
-  {
-    title: "Blog Category",
-    icon: MdProductionQuantityLimits,
-    href: "/dashboard/blogCategory",
-  },
-  {
-    title: "Product Category",
-    icon: MdOutlineCategory,
-    href: "/dashboard/productCategory",
-  },
-  {
-    title: "Product",
-    icon: CgProductHunt,
-    href: "/dashboard/product",
-  },
-  {
-    title: "Blog",
-    icon: ImBlogger,
-    href: "/dashboard/blog",
-  },
+  { title: "Dashboard", icon: LayoutDashboard, href: "/dashboard/overview" },
+  { title: "User Management", icon: Users, href: "/dashboard/users" },
+  { title: "Provider Management", icon: UserCheck, href: "/dashboard/providers" },
+  { title: "Quality Management", icon: Package, href: "/dashboard/qualitylist" },
+  { title: "Help Center", icon: HelpCircle, href: "/dashboard/help" },
+  { title: "Message", icon: MessageCircle, href: "/dashboard/messages" },
+  { title: "Settings", icon: Settings, href: "/dashboard/settings" },
 ]
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -106,22 +74,33 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {menuItems.map((item) => {
-                const isActive = pathname === item.href
-                const IconComponent = item.icon
-                return (
-                  <SidebarMenuItem key={item.href}>
-                    <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
-                      <Link href={item.href}>
-                        <IconComponent className="h-4 w-4" />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                )
-              })}
-            </SidebarMenu>
+         <SidebarMenu className="space-y-1">
+            {menuItems.map((item) => {
+              const isActive = pathname === item.href
+              const IconComponent = item.icon
+
+              return (
+                <SidebarMenuItem key={item.href}>
+                  <SidebarMenuButton
+                    asChild
+                    className={`
+                      w-full h-12 rounded-lg transition-all duration-200 hover:bg-gray-50
+                      ${
+                        isActive
+                          ? "bg-gradient-to-r from-purple-500 to-bprimary hover:text-white text-white hover:from-purple-600 hover:to-bprimary"
+                          : "text-gray-600 hover:text-gray-900"
+                      }
+                    `}
+                  >
+                    <Link href={item.href} className="flex items-center gap-3 px-3">
+                      <IconComponent className="h-8 w-8 flex-shrink-0" />
+                      <span className="font-medium">{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )
+            })}
+          </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

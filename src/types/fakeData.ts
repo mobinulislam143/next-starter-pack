@@ -1,7 +1,8 @@
 import { NotificationItem } from "./me.type";
 import { RiInstagramFill } from "react-icons/ri";
 import {  Mail } from "lucide-react";
-
+import UserImg from "@/assets/women.png";
+import { StaticImageData } from "next/image";
 export const transactions = [
   {
     id: "TXN1001",
@@ -60,6 +61,137 @@ export const transactions = [
     status: "Completed",
   },
 ];
+
+  export const dashboardStats = [
+    {
+      "id": "total-services",
+      "title": "Total Services",
+      "value": "154",
+      "icon": "briefcase",
+      "color": "orange",
+      "bgColor": "bg-orange-50",
+      "iconColor": "text-orange-600",
+      "textColor": "text-gray-600"
+    },
+    {
+      "id": "total-users",
+      "title": "Total Users",
+      "value": "5,056",
+      "icon": "user",
+      "color": "green",
+      "bgColor": "bg-green-50",
+      "iconColor": "text-green-600",
+      "textColor": "text-gray-600"
+    },
+    {
+      "id": "total-providers",
+      "title": "Total Providers",
+      "value": "59",
+      "icon": "users",
+      "color": "teal",
+      "bgColor": "bg-teal-50",
+      "iconColor": "text-teal-600",
+      "textColor": "text-gray-600"
+    },
+    {
+      "id": "total-earning",
+      "title": "Total Earning",
+      "value": "$26,816",
+      "icon": "wallet",
+      "color": "blue",
+      "bgColor": "bg-blue-50",
+      "iconColor": "text-blue-600",
+      "textColor": "text-gray-600"
+    }
+  ]
+
+
+interface UserChatInterface {
+  id: number;
+  name: string;
+  location: string;
+  lastMessage: string;
+  timestamp: string;
+  avatar: string | StaticImageData;
+}
+  export interface MessageInt {
+  id: number;
+  sender: string;
+  content: string;
+  timestamp: string;
+  isSent: boolean;
+}
+
+
+ export const UserChat: UserChatInterface[] = [
+    {
+      id: 1,
+      name: "Hasan Habib",
+      location: "Dhaka, Bangladesh",
+      lastMessage: "Lorem ipsum dolor sit amet,dolor...",
+      timestamp: "12:38",
+      avatar: UserImg,
+    },
+    {
+      id: 2,
+      name: "Hasan Habib",
+      location: "Dhaka, Bangladesh",
+      lastMessage: "Lorem ipsum dolor sit amet,dolor...",
+      timestamp: "12:38",
+      avatar: UserImg,
+    },
+    {
+      id: 3,
+      name: "Hasan Habib",
+      location: "Dhaka, Bangladesh",
+      lastMessage: "Lorem ipsum dolor sit amet,dolor...",
+      timestamp: "12:38",
+      avatar: UserImg,
+    },
+    {
+      id: 4,
+      name: "Hasan Habib",
+      location: "Dhaka, Bangladesh",
+      lastMessage: "Lorem ipsum dolor sit amet,dolor...",
+      timestamp: "12:38",
+      avatar: UserImg,
+    },
+  ];
+
+  export const chatmessage: MessageInt[] = [
+      {
+        id: 1,
+        sender: "Hasan Habib",
+        content:
+          "Happy Weekend gauss see you on next week keep spirit and don't forget to chill",
+        timestamp: "04:30 PM",
+        isSent: false,
+      },
+      {
+        id: 2,
+        sender: "Hasan Habib",
+        content:
+          "Happy Weekend gauss see you on next week keep spirit and don't forget to chill",
+        timestamp: "04:30 PM",
+        isSent: false,
+      },
+      {
+        id: 3,
+        sender: "You",
+        content:
+          "Happy Weekend gauss see you on next week keep spirit next week keep spirit",
+        timestamp: "04:30 PM",
+        isSent: true,
+      },
+      {
+        id: 4,
+        sender: "Hasan Habib",
+        content:
+          "Happy Weekend gauss see you on next week keep spirit and don't forget to chill",
+        timestamp: "04:30 PM",
+        isSent: false,
+      },
+    ]
 
 
 export const footerData = {

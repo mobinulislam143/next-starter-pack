@@ -55,14 +55,14 @@ export default function ForgetPass() {
          Back
 
         </Link> */}
-      <div className="space-y-2">
-        <Link href={"/"}>
-          <div className="w-[100px] h-[100px]">
+      <div className="flex flex-col items-start space-y-2">
+        <Link href={"/"} className="mb-14">
+          <div className="">
             <Image
               src={mainLogo}
-              width={100}
-              height={100}
-              className="w-full h-full"
+              width={70}
+              height={70}
+              className="w-full h-full object-cover"
               alt="mainlog"
             />
           </div>
@@ -89,14 +89,12 @@ export default function ForgetPass() {
           )}
         </div>
 
-        <Button
-        //   disabled={isLoading}
-          type="submit"
-          className="w-full bg-primary py-6"
-        >
-          {/* {isLoading ? "Sending Otp..." : "Send Otp"} */}
-          Send Otp
-        </Button>
+          <Button
+              type="submit"
+              className="w-full h-12 bg-bprimary hover:bg-bprimary/80 text-white font-medium rounded-[32px]"
+            >
+              Send Otp
+            </Button>
       </form>
     </AnimationWrapper>
   );

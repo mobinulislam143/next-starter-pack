@@ -1,18 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
-import mainLogo from "@/assets/logo/logo.jpg";
 import AnimationWrapper from "../common/AnimationWrapper";
 import { useLoginMutation } from "@/redux/features/authSlice/authApi";
 import { toast } from "sonner";
@@ -21,12 +18,12 @@ import { setUser } from "@/redux/features/authSlice/authSlice";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-
+import mainLogo from "@/assets/logo/logo.jpg";
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
   password: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
+    .min(8, { message: "Password must be at least 8 characters" }), // Changed from 4 to 8 to match error message
 });
 
 interface DecodedToken {
@@ -37,40 +34,33 @@ interface DecodedToken {
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function LoginForm() {
+export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
-      // isHost: false,
     },
   });
 
   const [loginUser, { isLoading }] = useLoginMutation();
-
   const dispatch = useDispatch();
-  const router = useRouter()
+  const router = useRouter();
+  const emailId = useId();
+  const passwordId = useId(); // Separate ID for password field
 
   const onSubmit = async (data: FormValues) => {
     try {
       const response = await loginUser(data).unwrap();
-
-      // Assuming response contains a token or user data
       if (response?.success) {
         const accessToken = response?.data?.token;
         if (accessToken) {
           const decodeToken = jwtDecode<DecodedToken>(accessToken);
-
-          console.log("Login successful:", response);
-
           dispatch(
             setUser({
               accessToken,
@@ -78,9 +68,6 @@ export default function LoginForm() {
                 email: decodeToken.email,
                 role: decodeToken.role,
                 id: decodeToken.id.toString(),
-                // name: "",
-                // phone: "",
-
               },
             })
           );
@@ -92,13 +79,11 @@ export default function LoginForm() {
           path: "/",
         });
         localStorage.setItem("accessToken", accessToken);
-        toast.success("Login successful!"); 
-        router.push('/')
+        toast.success("Login successful!");
+        router.push("/dashboard/login");
       }
     } catch (error: any) {
       console.error("Login failed:", error);
-
-      // Show user-friendly error message
       const message =
         error?.data?.message || "Something went wrong. Please try again.";
       toast.error(message);
@@ -109,29 +94,27 @@ export default function LoginForm() {
     <AnimationWrapper
       animation="fade-right"
       delay={0.1}
-      className="mx-auto w-full max-w-md"
+      className="mx-auto w-full max-w-[650px]"
     >
       <div className="flex flex-col items-start space-y-8">
         {/* Logo */}
-        <Link href={"/"}>
-            <div className="w-[100px] h-[100px]">
+        <Link href={"/"} className="mb-14">
+          <div className="">
             <Image
               src={mainLogo}
-              width={100}
-              height={100}
-              className="w-full h-full"
+              width={70}
+              height={70}
+              className="w-full h-full object-cover"
               alt="mainlog"
             />
           </div>
         </Link>
 
         {/* Heading */}
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
-            Welcome Back <span className="inline-block">👋</span>
-          </h1>
-          <p className="text-slate-600">
-            Please enter the sign in information.
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Login</h1>
+          <p className="text-gray-600">
+            Let&apos;s login into your account first
           </p>
         </div>
 
@@ -140,76 +123,75 @@ export default function LoginForm() {
           <div className="space-y-4">
             {/* Email field */}
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-slate-700">
-                Email Address
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="john.watson@example.com"
-                className={cn(
-                  "h-12 px-4 rounded-md border border-slate-200",
-                  errors.email && "border-red-500 focus-visible:ring-red-500"
+              <div className="group relative">
+                <label
+                  htmlFor={emailId}
+                  className="origin-start text-muted-foreground/70 group-focus-within:text-foreground has-[+input:not(:placeholder-shown)]:text-foreground absolute top-1/2 block -translate-y-1/2 cursor-text px-1 text-sm transition-all group-focus-within:pointer-events-none group-focus-within:top-0 group-focus-within:cursor-default group-focus-within:text-xs group-focus-within:font-medium has-[+input:not(:placeholder-shown)]:pointer-events-none has-[+input:not(:placeholder-shown)]:top-0 has-[+input:not(:placeholder-shown)]:cursor-default has-[+input:not(:placeholder-shown)]:text-xs has-[+input:not(:placeholder-shown)]:font-medium"
+                >
+                  <span className="bg-background inline-flex px-2">Email</span>
+                </label>
+                <Input
+                  id={emailId}
+                  type="email"
+                  placeholder=""
+                  className="w-full border-2 rounded-[32px] py-6 border-gray-200 placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 font-semibold"
+                  {...register("email")}
+                />
+                {errors.email && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.email.message}
+                  </p>
                 )}
-                {...register("email")}
-              />
-              {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
-              )}
+              </div>
             </div>
 
             {/* Password field */}
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-slate-700">
-                Password
-              </Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="••••••••••"
-                  className={cn(
-                    "h-12 px-4 rounded-md border border-slate-200 pr-10",
-                    errors.password &&
-                      "border-red-500 focus-visible:ring-red-500"
-                  )}
-                  {...register("password")}
-                />
-                <button
-                  type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                  onClick={() => setShowPassword(!showPassword)}
+              <div className="group relative">
+                <label
+                  htmlFor={passwordId}
+                  className="origin-start text-muted-foreground/70 group-focus-within:text-foreground has-[+input:not(:placeholder-shown)]:text-foreground absolute top-1/2 block -translate-y-1/2 cursor-text px-1 text-sm transition-all group-focus-within:pointer-events-none group-focus-within:top-0 group-focus-within:cursor-default group-focus-within:text-xs group-focus-within:font-medium has-[+input:not(:placeholder-shown)]:pointer-events-none has-[+input:not(:placeholder-shown)]:top-0 has-[+input:not(:placeholder-shown)]:cursor-default has-[+input:not(:placeholder-shown)]:text-xs has-[+input:not(:placeholder-shown)]:font-medium"
                 >
-                  {showPassword ? (
-                    <EyeOffIcon className="h-5 w-5" />
-                  ) : (
-                    <EyeIcon className="h-5 w-5" />
-                  )}
-                </button>
+                  <span className="bg-background inline-flex px-2">
+                    Password
+                  </span>
+                </label>
+                <div className="relative">
+                  <Input
+                    id={passwordId}
+                    type={showPassword ? "text" : "password"}
+                    placeholder=" "
+                    className="w-full py-6 placeholder:text-gray-400 border-2 rounded-[32px] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 font-semibold pr-10"
+                    {...register("password")}
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4 text-gray-400" />
+                    ) : (
+                      <Eye className="h-4 w-4 text-gray-400" />
+                    )}
+                  </Button>
+                </div>
+                {errors.password && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
-              {errors.password && (
-                <p className="text-sm text-red-500">
-                  {errors.password.message}
-                </p>
-              )}
             </div>
           </div>
 
           {/* Remember me and Forgot password */}
-          <div className="flex items-center justify-between">
-            {/* <div className="flex items-center space-x-2">
-              <Checkbox
-                id="rememberMe"
-                className="h-4 w-4 rounded border-slate-300 text-slate-600"
-                // {...register("rememberMe")}
-              />
-              <Label htmlFor="rememberMe" className="text-sm text-slate-600">
-                Remember Me
-              </Label>
-            </div> */}
+          <div className="flex items-center justify-end">
             <Link
               href="/forgot-password"
-              className="text-sm text-slate-600  hover:text-primary hover:underline"
+              className="text-sm text-bsecondary hover:text-bsecondary/80 font-semibold hover:underline"
             >
               Forgot Password
             </Link>
@@ -219,44 +201,10 @@ export default function LoginForm() {
           <Button
             type="submit"
             disabled={isLoading}
-            className="w-full h-12 bg-slate-600 hover:bg-slate-700 text-white rounded-md"
+            className="w-full h-12 bg-bprimary hover:bg-bprimary/80 text-white font-medium rounded-[32px]"
           >
             {isLoading ? "Signing In..." : "Sign In"}
           </Button>
-
-          {/* Host toggle */}
-          {/* <div className="flex items-center justify-between pt-2">
-            <Label htmlFor="isHost" className="text-sm text-slate-600">
-              Are you a host?
-            </Label>
-            <Switch
-              id="isHost"
-              className="data-[state=checked]:bg-slate-600"
-              checked={!!watch("isHost")}
-              onCheckedChange={(checked) => setValue("isHost", checked)}
-            />
-          </div> */}
-
-          {/* Or sign in with */}
-          {/* <div className="relative my-4">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200"></div>
-            </div>
-            <div className="relative flex justify-center text-xs">
-              <span className="bg-white px-2 text-slate-500">
-                Or sign in with
-              </span>
-            </div>
-          </div>
-
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full h-12 border border-slate-200 bg-white text-slate-800 hover:bg-slate-50 rounded-md"
-          >
-            <FcGoogle />
-            Google
-          </Button> */}
 
           <div className="text-center text-sm text-slate-600">
             Don&apos;t have an account?{" "}

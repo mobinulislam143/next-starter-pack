@@ -1,300 +1,297 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
-import { EyeIcon, EyeOffIcon, ChevronDownIcon } from "lucide-react";
+import { EyeOff, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { cn } from "@/lib/utils";
-// import FileUploadForm from "./FileUploadForm";
-import Image from "next/image";
-import mainLogo from "@/assets/logo/logo.jpg";
-import { toast } from "sonner";
-// import submitDoc from '@/assets/image/submitDoc.png'
-
-import { useRouter } from "next/navigation";
 import AnimationWrapper from "../common/AnimationWrapper";
-import { useRegisterMutation } from "@/redux/features/authSlice/authApi";
+import mainLogo from "@/assets/logo/logo.jpg";
 
-const signUpSchema = z.object({
-  role: z.string().min(1, { message: "Please select a role" }),
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  phone: z.string().min(10, { message: "Please enter a valid phone number" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
-});
-
-type SignUpFormValues = z.infer<typeof signUpSchema>;
-
-export default function SignUpForm() {
-  const router = useRouter();
-
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  // FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+// import { registerFormSchema } from "../form/formSchema";
+import Image from "next/image";
+import { registerFormSchema } from "@/lib/formSchema";
+export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
-  const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const nameId = useId();
+  const emailId = useId();
+  const phoneId = useId();
+  const passwordId = useId();
+  const repeatPasswordId = useId();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    // getValues,
-  } = useForm<SignUpFormValues>({
-    resolver: zodResolver(signUpSchema),
+  const form = useForm<z.infer<typeof registerFormSchema>>({
+    resolver: zodResolver(registerFormSchema),
     defaultValues: {
-      role: "HOST",
       name: "",
       email: "",
       phone: "",
       password: "",
-      // termsAccepted: false,
+      repeatPassword: "",
     },
   });
-  const [registerUser, { isLoading }] = useRegisterMutation();
 
-  const onSubmit = async (data: SignUpFormValues) => {
-    try {
-      const response = await registerUser(data).unwrap();
-      console.log("response ", response);
-      if (response?.success) {
-        const { role, name, email, phone, password } = data;
-
-        if (role === "HOST") {
-          console.log("HOST registration data:", data);
-          toast.success("HOST Registered Successfully");
-          router.push("/login");
-        } else {
-          const guestData = { role, name, email, phone, password };
-          console.log("GUEST registration data:", guestData);
-          toast.success("GUEST Registered Successfully");
-          router.push("/login");
-
-          // Optional: redirect guest or trigger next step
-        }
-      } else {
-        toast.error(
-          response?.message || "Registration failed. Please try again."
-        );
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.error("Registration error:", error);
-
-      // Show backend error message if available
-      const errorMessage =
-        error?.data?.message ||
-        error?.message ||
-        "An unexpected error occurred during registration.";
-
-      toast.error(errorMessage);
-    }
-  };
-
-  const roleOptions = ["HOST", "GUEST"];
-  const selectedRole = watch("role");
+  function onSubmit(values: z.infer<typeof registerFormSchema>) {
+    console.log(values);
+    // Handle form submission here
+  }
 
   return (
-    <AnimationWrapper
-      animation="fade-right"
-      delay={0.1}
-      className="mx-auto w-full max-w-md"
-    >
-      <div className="space-y-2">
-        <Link href={"/"}>
-            <div className="w-[100px] h-[100px]">
+    <AnimationWrapper animation="fade-right" delay={0.1} className="mx-auto w-full max-w-[650px]">
+      <div className="flex flex-col items-start space-y-8">
+        {/* Logo */}
+        <Link href={"/"} className="mb-14">
+          <div className="">
             <Image
               src={mainLogo}
-              width={100}
-              height={100}
-              className="w-full h-full"
+              width={70}
+              height={70}
+              className="w-full h-full object-cover"
               alt="mainlog"
             />
           </div>
         </Link>
-        <h1 className="text-3xl font-bold text-slate-900">Sign Up</h1>
-        <p className="text-slate-600">
-          Please enter the information to create an account.
-        </p>
-      </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Role Dropdown */}
-        <div className="space-y-2">
-          <Label htmlFor="role" className="text-slate-700">
-            Your role
-          </Label>
-          <div className="relative">
-            <button
-              type="button"
-              className={cn(
-                "flex w-full items-center justify-between rounded-md border border-slate-200 bg-white px-4 py-3 text-left",
-                errors.role && "border-red-500"
-              )}
-              onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-            >
-              <span>{selectedRole || "Select a role"}</span>
-              <ChevronDownIcon className="h-4 w-4 text-slate-500" />
-            </button>
+        {/* Heading */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Register</h1>
+          <p className="text-gray-600">Let&apos;s create new account</p>
+        </div>
 
-            {isRoleDropdownOpen && (
-              <div className="absolute z-10 mt-1 w-full rounded-md border border-slate-200 bg-white shadow-lg">
-                <ul className="py-1">
-                  {roleOptions.map((role) => (
-                    <li key={role}>
-                      <button
-                        type="button"
-                        className="w-full px-4 py-2 text-left hover:bg-slate-100"
-                        onClick={() => {
-                          setValue("role", role);
-                          setIsRoleDropdownOpen(false);
-                        }}
-                      >
-                        {role}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+        {/* Form */}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+            <div className="space-y-4">
+              {/* Name Field */}
+              <div className="space-y-2">
+                <div className="group relative">
+                  <label
+                    htmlFor={nameId}
+                    className="origin-start text-muted-foreground/70 group-focus-within:text-foreground has-[+input:not(:placeholder-shown)]:text-foreground absolute top-1/2 block -translate-y-1/2 cursor-text px-1 text-sm transition-all group-focus-within:pointer-events-none group-focus-within:top-0 group-focus-within:cursor-default group-focus-within:text-xs group-focus-within:font-medium has-[+input:not(:placeholder-shown)]:pointer-events-none has-[+input:not(:placeholder-shown)]:top-0 has-[+input:not(:placeholder-shown)]:cursor-default has-[+input:not(:placeholder-shown)]:text-xs has-[+input:not(:placeholder-shown)]:font-medium"
+                  >
+                    <span className="bg-background inline-flex px-2">Your Name</span>
+                  </label>
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            id={nameId}
+                            placeholder=""
+                            className="w-full border-2 rounded-[32px] py-6 border-gray-200 placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 font-semibold"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="px-2" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
-            )}
-            <input type="hidden" {...register("role")} />
-            {errors.role && (
-              <p className="mt-1 text-sm text-red-500">{errors.role.message}</p>
-            )}
-          </div>
-        </div>
 
-        {/* Name Field */}
-        <div className="space-y-2">
-          <Label htmlFor="name" className="text-slate-700">
-            Name
-          </Label>
-          <Input
-            id="name"
-            placeholder="John Watson"
-            className={cn(
-              "rounded-md border border-slate-200 px-4 py-3",
-              errors.name && "border-red-500 focus-visible:ring-red-500"
-            )}
-            {...register("name")}
-          />
-          {errors.name && (
-            <p className="text-sm text-red-500">{errors.name.message}</p>
-          )}
-        </div>
+              {/* Email Field */}
+              <div className="space-y-2">
+                <div className="group relative">
+                  <label
+                    htmlFor={emailId}
+                    className="origin-start text-muted-foreground/70 group-focus-within:text-foreground has-[+input:not(:placeholder-shown)]:text-foreground absolute top-1/2 block -translate-y-1/2 cursor-text px-1 text-sm transition-all group-focus-within:pointer-events-none group-focus-within:top-0 group-focus-within:cursor-default group-focus-within:text-xs group-focus-within:font-medium has-[+input:not(:placeholder-shown)]:pointer-events-none has-[+input:not(:placeholder-shown)]:top-0 has-[+input:not(:placeholder-shown)]:cursor-default has-[+input:not(:placeholder-shown)]:text-xs has-[+input:not(:placeholder-shown)]:font-medium"
+                  >
+                    <span className="bg-background inline-flex px-2">Email</span>
+                  </label>
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            id={emailId}
+                            type="email"
+                            placeholder=""
+                            className="w-full border-2 rounded-[32px] py-6 border-gray-200 placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 font-semibold"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="px-2" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
 
-        {/* Email Field */}
-        <div className="space-y-2">
-          <Label htmlFor="email" className="text-slate-700">
-            Email Address
-          </Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="john.watson@example.com"
-            className={cn(
-              "rounded-md border border-slate-200 px-4 py-3",
-              errors.email && "border-red-500 focus-visible:ring-red-500"
-            )}
-            {...register("email")}
-          />
-          {errors.email && (
-            <p className="text-sm text-red-500">{errors.email.message}</p>
-          )}
-        </div>
+              {/* Phone Field */}
+              <div className="space-y-2">
+                <div className="group relative">
+                  <label
+                    htmlFor={phoneId}
+                    className="origin-start text-muted-foreground/70 group-focus-within:text-foreground has-[+input:not(:placeholder-shown)]:text-foreground absolute top-1/2 block -translate-y-1/2 cursor-text px-1 text-sm transition-all group-focus-within:pointer-events-none group-focus-within:top-0 group-focus-within:cursor-default group-focus-within:text-xs group-focus-within:font-medium has-[+input:not(:placeholder-shown)]:pointer-events-none has-[+input:not(:placeholder-shown)]:top-0 has-[+input:not(:placeholder-shown)]:cursor-default has-[+input:not(:placeholder-shown)]:text-xs has-[+input:not(:placeholder-shown)]:font-medium"
+                  >
+                    <span className="bg-background inline-flex px-2">Phone</span>
+                  </label>
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            id={phoneId}
+                            type="tel"
+                            placeholder=""
+                            className="w-full border-2 rounded-[32px] py-6 border-gray-200 placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 font-semibold"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="px-2" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
 
-        {/* Mobile Number Field */}
-        <div className="space-y-2">
-          <Label htmlFor="phone" className="text-slate-700">
-            Mobile Number
-          </Label>
-          <Input
-            id="mobileNumber"
-            placeholder="(205) 555-0100"
-            className={cn(
-              "rounded-md border border-slate-200 px-4 py-3",
-              errors.phone && "border-red-500 focus-visible:ring-red-500"
-            )}
-            {...register("phone")}
-          />
-          {errors.phone && (
-            <p className="text-sm text-red-500">{errors.phone.message}</p>
-          )}
-        </div>
+              {/* Password Field */}
+              <div className="space-y-2">
+                <div className="group relative">
+                  <label
+                    htmlFor={passwordId}
+                    className="origin-start text-muted-foreground/70 group-focus-within:text-foreground has-[+input:not(:placeholder-shown)]:text-foreground absolute top-1/2 block -translate-y-1/2 cursor-text px-1 text-sm transition-all group-focus-within:pointer-events-none group-focus-within:top-0 group-focus-within:cursor-default group-focus-within:text-xs group-focus-within:font-medium has-[+input:not(:placeholder-shown)]:pointer-events-none has-[+input:not(:placeholder-shown)]:top-0 has-[+input:not(:placeholder-shown)]:cursor-default has-[+input:not(:placeholder-shown)]:text-xs has-[+input:not(:placeholder-shown)]:font-medium"
+                  >
+                    <span className="bg-background inline-flex px-2">Password</span>
+                  </label>
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              id={passwordId}
+                              type={showPassword ? "text" : "password"}
+                              placeholder=" "
+                              className="w-full py-6 placeholder:text-gray-400 border-2 rounded-[32px] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 font-semibold pr-10"
+                              {...field}
+                            />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              {showPassword ? (
+                                <EyeOff className="h-4 w-4 text-gray-400" />
+                              ) : (
+                                <Eye className="h-4 w-4 text-gray-400" />
+                              )}
+                            </Button>
+                          </div>
+                        </FormControl>
+                        <FormMessage className="px-2" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
 
-        {/* Password Field */}
-        <div className="space-y-2">
-          <Label htmlFor="password" className="text-slate-700">
-            Password
-          </Label>
-          <div className="relative">
-            <Input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              placeholder="••••••••••"
-              className={cn(
-                "rounded-md border border-slate-200 px-4 py-3 pr-10",
-                errors.password && "border-red-500 focus-visible:ring-red-500"
-              )}
-              {...register("password")}
-            />
-            <button
-              type="button"
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-              onClick={() => setShowPassword(!showPassword)}
+              {/* Repeat Password Field */}
+              <div className="space-y-2">
+                <div className="group relative">
+                  <label
+                    htmlFor={repeatPasswordId}
+                    className="origin-start text-muted-foreground/70 group-focus-within:text-foreground has-[+input:not(:placeholder-shown)]:text-foreground absolute top-1/2 block -translate-y-1/2 cursor-text px-1 text-sm transition-all group-focus-within:pointer-events-none group-focus-within:top-0 group-focus-within:cursor-default group-focus-within:text-xs group-focus-within:font-medium has-[+input:not(:placeholder-shown)]:pointer-events-none has-[+input:not(:placeholder-shown)]:top-0 has-[+input:not(:placeholder-shown)]:cursor-default has-[+input:not(:placeholder-shown)]:text-xs has-[+input:not(:placeholder-shown)]:font-medium"
+                  >
+                    <span className="bg-background inline-flex px-2">Confirm Password</span>
+                  </label>
+                  <FormField
+                    control={form.control}
+                    name="repeatPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              id={repeatPasswordId}
+                              type={showRepeatPassword ? "text" : "password"}
+                              placeholder=" "
+                              className="w-full py-6 placeholder:text-gray-400 border-2 rounded-[32px] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 font-semibold pr-10"
+                              {...field}
+                            />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                              onClick={() => setShowRepeatPassword(!showRepeatPassword)}
+                            >
+                              {showRepeatPassword ? (
+                                <EyeOff className="h-4 w-4 text-gray-400" />
+                              ) : (
+                                <Eye className="h-4 w-4 text-gray-400" />
+                              )}
+                            </Button>
+                          </div>
+                        </FormControl>
+                        <FormMessage className="px-2" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <Button
+              type="submit"
+              className="w-full h-12 bg-bprimary hover:bg-bprimary/80 text-white font-medium rounded-[32px]"
             >
-              {showPassword ? (
-                <EyeOffIcon className="h-5 w-5" />
-              ) : (
-                <EyeIcon className="h-5 w-5" />
-              )}
-            </button>
-          </div>
-          {errors.password && (
-            <p className="text-sm text-red-500">{errors.password.message}</p>
-          )}
-        </div>
+              Register
+            </Button>
+          </form>
+        </Form>
 
-        {/* Terms and Conditions */}
-        <div className="flex items-start space-x-2">
-          <Checkbox
-            required
-            id="termsAccepted"
-            className="h-4 w-4 mt-1 rounded border-slate-300 text-slate-600"
-            // {...register("termsAccepted")}
-          />
-          <Label htmlFor="termsAccepted" className="text-sm text-slate-600">
-            I Agree the{" "}
-            <Link href="/terms" className="text-slate-800 font-medium">
-              Terms & Conditions
-            </Link>
-          </Label>
-        </div>
-        {/* {errors.termsAccepted && <p className="text-sm text-red-500">{errors.termsAccepted.message}</p>} */}
-
-        {/* Sign Up Button */}
-        <Button
-          type="submit"
-          disabled={isLoading}
-          className="w-full bg-slate-600 hover:bg-slate-700 text-white py-3 rounded-md"
-        >
-          {isLoading ? "Signing Up..." : "Sign Up"}
-        </Button>
-
-        {/* Sign In Link */}
-        <div className="text-center text-sm text-slate-600">
+        {/* Login Link */}
+        <div className="text-center text-sm text-slate-600 w-full">
           Already have an account?{" "}
-          <Link href="/login" className="text-slate-800 font-medium">
-            Sign In
+          <Link
+            href="/login"
+            className="font-semibold text-bprimary hover:text-bprimary/80 hover:underline"
+          >
+            Login Here
           </Link>
         </div>
-      </form>
+
+        {/* Footer */}
+        <div className="text-center text-xs text-gray-500 w-full">
+          © 2025 
+          <Link
+            href="/terms"
+            className="text-bprimary hover:text-bprimary/80"
+          >
+            Term & Condition
+          </Link>{" "}
+          |{" "}
+          <Link
+            href="/privacy"
+            className="text-bprimary hover:text-bprimary/80"
+          >
+            Privacy & Policy
+          </Link>
+        </div>
+      </div>
     </AnimationWrapper>
   );
 }
