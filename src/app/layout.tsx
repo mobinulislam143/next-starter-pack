@@ -4,7 +4,7 @@ import ReduxProvider from "@/redux/provider/ReduxProvider";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "Elgouchibadr",
+  title: "Yaribabiee",
   // description: "Admin Dashboard",
 };
 
